@@ -6,6 +6,8 @@ img: assets/img/12.jpg
 importance: 1
 category: AI
 related_publications: false
+redirect: https://eclipsinglines.github.io/FAITH/
+github: https://github.com/EclipsingLines/FAITH
 ---
 
 Every project has a beautiful feature showcase page.

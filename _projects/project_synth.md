@@ -5,6 +5,8 @@ description:
 img: assets/img/3.jpg
 importance: 2
 category: GameDev
+redirect: https://eclipsinglines.github.io/GodotSynth/
+github: https://github.com/EclipsingLines/GodotSynth
 ---
 
 Every project has a beautiful feature showcase page.
