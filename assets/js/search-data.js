@@ -52,7 +52,7 @@ ninja.data = [{
               window.location.href = "/projects/project_faith/";
             },},{id: "projects-godot-synth",
           title: 'Godot Synth',
-          description: "",
+          description: "Synthesizer plugin for godot, SFX and procedural music.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/project_synth/";
             },},{
