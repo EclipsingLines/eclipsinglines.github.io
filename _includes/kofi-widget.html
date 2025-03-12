@@ -1,9 +1,77 @@
-<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-<script>
-  kofiWidgetOverlay.draw('eclipsinglines', {
-    'type': 'floating-chat',
-    'floating-chat.donateButton.text': 'Support me',
-    'floating-chat.donateButton.background-color': '#794bc4',
-    'floating-chat.donateButton.text-color': '#fff'
-  });
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Me</title>
+  <style>
+    #supportButton {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #794bc4;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #supportPanel {
+      display: none;
+      position: fixed;
+      bottom: 60px;
+      right: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      z-index: 1000;
+    }
+
+    #supportPanel iframe {
+      width: 300px;
+      height: 400px;
+      border: none;
+    }
+
+    #closeButton {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id="supportButton">Support me <i class="fa fa-steamingcup"></i></button>
+  <div id="supportPanel">
+    <button id="closeButton">&times;</button>
+    <iframe id='kofiframe' src='https://ko-fi.com/eclipsinglines/?hidefeed=true&widget=true&embed=true&preview=true' title='eclipsinglines'></iframe>
+  </div>
+
+  <script>
+    const supportButton = document.getElementById('supportButton');
+    const supportPanel = document.getElementById('supportPanel');
+    const closeButton = document.getElementById('closeButton');
+
+    supportButton.addEventListener('click', () => {
+      supportPanel.style.display = 'block';
+    });
+
+    closeButton.addEventListener('click', () => {
+      supportPanel.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target !== supportButton && e.target !== supportPanel && !supportPanel.contains(e.target)) {
+        supportPanel.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
