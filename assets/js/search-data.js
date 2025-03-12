@@ -73,7 +73,17 @@ ninja.data = [{
             },},{id: "news-a-simple-inline-announcement",
           title: 'A simple inline announcement.',
           description: "",
-          section: "News",},{
+          section: "News",},{id: "projects-project-faith",
+          title: 'Project FAITH',
+          description: "Faith is Active Inference for Thinking Humans",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/project_faith/";
+            },},{id: "projects-godot-synth",
+          title: 'Godot Synth',
+          description: "",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/project_synth/";
+            },},{
         id: 'social-bluesky',
         title: 'Bluesky',
         section: 'Socials',
