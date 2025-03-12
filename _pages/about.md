@@ -27,5 +27,3 @@ latest_posts:
 ---
 
 Eclipsing lines bio stuff here.
-
-{% include kofi-widget.html %}

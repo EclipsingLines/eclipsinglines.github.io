@@ -63,5 +63,3 @@ horizontal: false
   {% endif %}
 {% endif %}
 </div>
-
-{% include kofi-widget.html %}

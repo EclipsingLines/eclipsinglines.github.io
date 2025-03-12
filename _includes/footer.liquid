@@ -7,6 +7,9 @@
   {% if site.last_updated %}
     Last updated: {{ 'now' | date: '%B %d, %Y' }}.
   {% endif %}
+  
+  {% include kofi-widget.html %}
+
 {% endcapture %}
 
 {% if site.footer_fixed %}
