@@ -9,7 +9,8 @@ profile:
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>Toucan - Watercolor and Ink - 2024</p>
+    <p>Toucan - Watercolor and Ink</p>
+    <div aling="center"><p>2024</p></div>
 
 selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
