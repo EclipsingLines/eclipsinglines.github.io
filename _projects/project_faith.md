@@ -8,4 +8,5 @@ category: AI
 related_publications: false
 redirect: https://eclipsinglines.github.io/FAITH/
 github: https://github.com/EclipsingLines/FAITH
+completed: false
 ---

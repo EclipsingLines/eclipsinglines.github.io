@@ -7,4 +7,5 @@ importance: 2
 category: Tools
 redirect: https://eclipsinglines.github.io/GodotSynth/
 github: https://github.com/EclipsingLines/GodotSynth
+completed: true
 ---
