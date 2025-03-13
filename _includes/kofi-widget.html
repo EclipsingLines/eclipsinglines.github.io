@@ -39,9 +39,26 @@
     font-size: 16px;
     cursor: pointer;
   }
+
+  .gif-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .gif-button:hover {
+    opacity: 0.8;
+  }
+
+  .gif-button img {
+    height: 40px;
+    width: auto;
+    display: block;
+  }
 </style>
 
-<button id="supportButton"> <img
+<button id="supportButton" class="gif-button"> <img
     src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2szbjR6bHY1YndubnhuMzhvaDdneXdxYjZ5c3ZkOHBobTRqOXU0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/bZgsAwXUIVU2tcKn7s/giphy.gif"
     alt="Clickable GIF Button"> </button>
 <div id="supportPanel">
