@@ -58,7 +58,7 @@
   }
 </style>
 
-<button id="supportButton" class="gif-button"> <img
+<button id="supportButton" class="gif-button"> <img id="supportImage"
     src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExb2szbjR6bHY1YndubnhuMzhvaDdneXdxYjZ5c3ZkOHBobTRqOXU0YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/bZgsAwXUIVU2tcKn7s/giphy.gif"
     alt="Clickable GIF Button"> </button>
 <div id="supportPanel">
@@ -68,12 +68,18 @@
 </div>
 
 <script>
-  const supportButton = document.getElementById('supportButton');
+  const supportButton = document.getElementById('supportImage');
   const supportPanel = document.getElementById('supportPanel');
   const closeButton = document.getElementById('closeButton');
-
+  var showPanel = false;
   supportButton.addEventListener('click', () => {
-    supportPanel.style.display = 'block';
+    if (showPanel) {
+      supportPanel.style.display = 'none';
+      showPanel = false;
+    } else {
+      supportPanel.style.display = 'block';
+      showPanel = true;
+    }
   });
 
   closeButton.addEventListener('click', () => {
