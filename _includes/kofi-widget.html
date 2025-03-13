@@ -72,6 +72,17 @@
   const supportPanel = document.getElementById('supportPanel');
   const closeButton = document.getElementById('closeButton');
   var showPanel = false;
+
+  // Function to determine if the user is on a mobile device
+  function isMobileDevice() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  }
+
+  // Set the image source based on the device type
+  if (isMobileDevice()) {
+    supportButton.src = "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExajFpaWtuMjB4NmkycWRjMGN3MjduanpqejB3MTEzbnM2aXVuZW12cSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/PaF9a1MpqDzovyqVKj/giphy.gif";
+  }
+
   supportButton.addEventListener('click', () => {
     if (showPanel) {
       supportPanel.style.display = 'none';
@@ -81,6 +92,8 @@
       showPanel = true;
     }
   });
+
+
 
   closeButton.addEventListener('click', () => {
     supportPanel.style.display = 'none';
