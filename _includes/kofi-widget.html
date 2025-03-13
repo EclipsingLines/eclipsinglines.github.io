@@ -84,11 +84,13 @@
 
   closeButton.addEventListener('click', () => {
     supportPanel.style.display = 'none';
+    showPanel = false;
   });
 
   window.addEventListener('click', (e) => {
     if (e.target !== supportButton && e.target !== supportPanel && !supportPanel.contains(e.target)) {
       supportPanel.style.display = 'none';
+      showPanel = false;
     }
   });
 </script>
