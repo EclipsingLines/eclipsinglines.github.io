@@ -13,7 +13,7 @@ def translate_content(content, api_key, model, prompt):
         "model": model,
         "messages": [
             {"role": "system", "content": prompt},
-            {"role": "user", "content": f"Translate the following content to Spanish, return ONLY the translated text: {content}"}
+            {"role": "user", "content": "Translate the following content to Spanish, return ONLY the translated text: {content}"}
         ]
     }
     response = requests.post(url, headers=headers, json=data)
