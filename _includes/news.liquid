@@ -15,13 +15,22 @@
           {% assign news_limit = news_size %}
         {% endif %}
         {% for item in news limit: news_limit %}
+          {% assign translated_item = nil %}
+          {% if site.detected_locale == 'es' %}
+            {% assign translated_item_path = '_news/es/' | append: item.name | replace: '.md', '-es.md' %}
+            {% assign translated_item = site.pages | where: 'path', translated_item_path | first %}
+          {% endif %}
           <tr>
             <th scope="row" style="width: 20%">{{ item.date | date: '%b %d, %Y' }}</th>
             <td>
               {% if item.inline %}
                 {{ item.content | remove: '<p>' | remove: '</p>' | emojify }}
               {% else %}
-                <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                {% if translated_item %}
+                  <a class="news-title" href="{{ translated_item.url | relative_url }}">{{ translated_item.title }}</a>
+                {% else %}
+                  <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                {% endif %}
               {% endif %}
             </td>
           </tr>

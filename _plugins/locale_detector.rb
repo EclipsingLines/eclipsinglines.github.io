@@ -5,7 +5,8 @@ module Jekyll
 
     def generate(site)
       # Check for the lang query parameter in the URL
-      lang_param = ENV['QUERY_STRING']&.split('&')&.find { |param| param.start_with?('lang=') }&.split('=')&.last
+      require 'webrick'
+      lang_param = WEBrick::HTTPUtils.parse_query(ENV['QUERY_STRING'])['lang']
       
       # If the lang parameter is present and valid, use it
       if lang_param && ['en', 'es'].include?(lang_param)

@@ -19,15 +19,30 @@ layout: default
     <div class="table-responsive">
       <table class="table table-sm table-borderless">
         {% for document in page.documents %}
+          {% assign translated_document = nil %}
+          {% if site.detected_locale == 'es' %}
+            {% assign translated_document_path = '_posts/es/' | append: document.name | replace: '.md', '-es.md' %}
+            {% assign translated_document = site.pages | where: 'path', translated_document_path | first %}
+          {% endif %}
           <tr>
             <th scope="row">{{ document.date | date: '%b %d, %Y' }}</th>
             <td>
-              {% if document.redirect == blank %}
-                <a class="post-link" href="{{ document.url | relative_url }}">{{ document.title }}</a>
-              {% elsif document.redirect contains '://' %}
-                <a class="post-link" href="{{ document.redirect }}" target="_blank">{{ document.title }}</a>
+              {% if translated_document %}
+                {% if translated_document.redirect == blank %}
+                  <a class="post-link" href="{{ translated_document.url | relative_url }}">{{ translated_document.title }}</a>
+                {% elsif translated_document.redirect contains '://' %}
+                  <a class="post-link" href="{{ translated_document.redirect }}" target="_blank">{{ translated_document.title }}</a>
+                {% else %}
+                  <a class="post-link" href="{{ translated_document.redirect | relative_url }}">{{ translated_document.title }}</a>
+                {% endif %}
               {% else %}
-                <a class="post-link" href="{{ document.redirect | relative_url }}">{{ document.title }}</a>
+                {% if document.redirect == blank %}
+                  <a class="post-link" href="{{ document.url | relative_url }}">{{ document.title }}</a>
+                {% elsif document.redirect contains '://' %}
+                  <a class="post-link" href="{{ document.redirect }}" target="_blank">{{ document.title }}</a>
+                {% else %}
+                  <a class="post-link" href="{{ document.redirect | relative_url }}">{{ document.title }}</a>
+                {% endif %}
               {% endif %}
             </td>
           </tr>
