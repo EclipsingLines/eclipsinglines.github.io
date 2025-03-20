@@ -20,7 +20,24 @@ jobs:
       - name: Check if translation already exists
         id: check_translation
         run: |
-          INPUT_FILE=$(find _posts -name "*.md" -print -quit)
+          # Get the list of changed files
+          CHANGED_FILES=$(echo ${{ github.event.commits[0].modified }} | tr -d '[]' | tr -d '"' | sed 's/,/ /g')
+
+          # Find the first markdown file in the list of changed files
+          INPUT_FILE=""
+          for FILE in $CHANGED_FILES; do
+            if [[ "$FILE" == *_posts/*.md ]]; then
+              INPUT_FILE="$FILE"
+              break
+            fi
+          done
+
+          if [ -z "$INPUT_FILE" ]; then
+            echo "No markdown file found in the list of changed files, skipping."
+            echo "::set-output name=exists::true"
+            exit 0
+          fi
+
           FILENAME=$(basename "$INPUT_FILE")
           FILENAME_WITHOUT_EXT="${FILENAME%.*}"
           OUTPUT_FILE="_posts/es/$FILENAME_WITHOUT_EXT-es.md"
@@ -30,16 +47,18 @@ jobs:
           else
             echo "::set-output name=exists::false"
           fi
+        env:
+          INPUT_FILE: $INPUT_FILE
       - name: Translate post
         if: steps.check_translation.outputs.exists == 'false'
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          INPUT_FILE=$(find _posts -name "*.md" -print -quit)
+          INPUT_FILE=$INPUT_FILE
           FILENAME=$(basename "$INPUT_FILE")
           FILENAME_WITHOUT_EXT="${FILENAME%.*}"
           OUTPUT_FILE="_posts/es/$FILENAME_WITHOUT_EXT-es.md"
-          python translate.py "$INPUT_FILE" "$OUTPUT_FILE" "$OPENROUTER_API_KEY" "google/gemini-2.0-flash-001"
+          python translate.py "$INPUT_FILE" "$OUTPUT_FILE" "$OPENROUTER_API_KEY" "gemini/gemini-2-flash"
       - name: Commit and push changes
         if: steps.check_translation.outputs.exists == 'false'
         run: |
