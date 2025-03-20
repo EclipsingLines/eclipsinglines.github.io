@@ -19,17 +19,14 @@ jobs:
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          # Create the es directory if it doesn't exist
-          mkdir -p _news/es
-
-          # Get all files in _news directory (excluding the es directory)
-          NEWS_FILES=$(find _news -maxdepth 1 -name "*.md" ! -path "_news/es/*" -print)
+          # Get all files in _news directory
+          NEWS_FILES=$(find _news -maxdepth 1 -name "*.md" -print)
 
           # Loop through each news file
           for INPUT_FILE in $NEWS_FILES; do
             FILENAME=$(basename "$INPUT_FILE")
             FILENAME_WITHOUT_EXT="${FILENAME%.*}"
-            OUTPUT_FILE="_news/es/$FILENAME_WITHOUT_EXT.md"
+            OUTPUT_FILE="$INPUT_FILE"
 
             # Check if translation exists
             if [ ! -f "$OUTPUT_FILE" ]; then
@@ -45,7 +42,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           
           # Add any new files first
-          git add _news/es/*-es.md
+          git add _news/*.md
           
           # Check if there are any changes to commit
           if git diff --quiet --cached; then

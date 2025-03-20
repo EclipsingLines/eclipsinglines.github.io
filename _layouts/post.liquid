@@ -15,7 +15,7 @@ layout: default
 
 <div class="post">
   <header class="post-header">
-    <h1 class="post-title">{{ page.title | t }}</h1>
+    <h1 class="post-title">{{ page.title | localize }}</h1>
     <p class="post-meta">
       {{ 'Created on' | t }} {{ page.date | date: '%B %d, %Y' }}
       {% if page.author %}{{ 'by' | t }} {{ page.author }}{% endif %}

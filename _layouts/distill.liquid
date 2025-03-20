@@ -17,7 +17,7 @@
   <d-front-matter>
     <script async type="text/json">
       {
-            "title": "{{ page.title | t }}",
+            "title": "{{ page.title | localize }}",
             "description": "{{ page.description | t }}",
             "published": "{{ page.date | date: '%B %d, %Y' }}",
             "authors": [
@@ -59,7 +59,7 @@
     <!-- Content -->
     <div class="post distill">
       <d-title>
-        <h1>{{ page.title | t }}</h1>
+        <h1>{{ page.title | localize }}</h1>
         <p>{{ page.description | t }}</p>
       </d-title>
       {% if page.authors %}

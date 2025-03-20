@@ -202,10 +202,14 @@ keep_files:
   - _plugins
 
 # Multilingual settings
-languages: ["en", "es"]
 
 # Plug-ins
 plugins:
+  - jekyll-polyglot
+languages: ["en", "es"]
+default_lang: "en"
+exclude_from_localization: ["javascript", "images", "css"]
+parallel_localization: true
   - jekyll-archives-v2
   - jekyll-email-protect
   - jekyll-feed

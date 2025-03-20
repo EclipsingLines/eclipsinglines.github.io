@@ -87,6 +87,19 @@ def process_file(input_file, target_language, api_key, model, translations):
         # Debug print
         print(f"translations keys: {list(translations.keys())}")
         
+        # Add the lang front matter
+        frontmatter_data["lang"] = target_language
+
+        # Rebuild the frontmatter
+        new_frontmatter = "---\n" + yaml.dump(frontmatter_data, allow_unicode=True) + "---\n"
+
+        # Combine the frontmatter and body
+        new_content = new_frontmatter + (translations[text_only] if text_only else "")
+
+        # Write the translated content to the output file
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(new_content)
+
         return True
     except Exception as e:
         print(f"Error processing {input_file}: {e}")

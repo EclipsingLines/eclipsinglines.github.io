@@ -187,69 +187,69 @@
     <div class="links">
       {% if entry.award %}
         <a class="award btn btn-sm z-depth-0" role="button">
-          {%- if entry.award_name %}{{ entry.award_name }}{% else %}{{ 'Awarded' | t }}{% endif -%}
+          {%- if entry.award_name %}{{ entry.award_name }}{% else %}{{ 'Awarded' | localize }}{% endif -%}
         </a>
       {% endif %}
       {% if entry.abstract %}
-        <a class="abstract btn btn-sm z-depth-0" role="button">{{ 'Abs' | t }}</a>
+        <a class="abstract btn btn-sm z-depth-0" role="button">{{ 'Abs' | localize }}</a>
       {% endif %}
       {% if entry.doi %}
-        <a href="https://doi.org/{{ entry.doi }}" class="btn btn-sm z-depth-0" role="button">{{ 'DOI' | t }}</a>
+        <a href="https://doi.org/{{ entry.doi }}" class="btn btn-sm z-depth-0" role="button">{{ 'DOI' | localize }}</a>
       {% endif %}
       {% if entry.arxiv %}
-        <a href="http://arxiv.org/abs/{{ entry.arxiv }}" class="btn btn-sm z-depth-0" role="button">{{ 'arXiv' | t }}</a>
+        <a href="http://arxiv.org/abs/{{ entry.arxiv }}" class="btn btn-sm z-depth-0" role="button">{{ 'arXiv' | localize }}</a>
       {% endif %}
       {% if entry.bibtex_show %}
-        <a class="bibtex btn btn-sm z-depth-0" role="button">{{ 'Bib' | t }}</a>
+        <a class="bibtex btn btn-sm z-depth-0" role="button">{{ 'Bib' | localize }}</a>
       {% endif %}
       {% if entry.html %}
         {% if entry.html contains '://' %}
-          <a href="{{ entry.html }}" class="btn btn-sm z-depth-0" role="button">{{ 'HTML' | t }}</a>
+          <a href="{{ entry.html }}" class="btn btn-sm z-depth-0" role="button">{{ 'HTML' | localize }}</a>
         {% else %}
-          <a href="{{ entry.html | prepend: '/assets/html/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'HTML' | t }}</a>
+          <a href="{{ entry.html | prepend: '/assets/html/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'HTML' | localize }}</a>
         {% endif %}
       {% endif %}
       {% if entry.pdf %}
         {% if entry.pdf contains '://' %}
-          <a href="{{ entry.pdf }}" class="btn btn-sm z-depth-0" role="button">{{ 'PDF' | t }}</a>
+          <a href="{{ entry.pdf }}" class="btn btn-sm z-depth-0" role="button">{{ 'PDF' | localize }}</a>
         {% else %}
-          <a href="{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'PDF' | t }}</a>
+          <a href="{{ entry.pdf | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'PDF' | localize }}</a>
         {% endif %}
       {% endif %}
       {% if entry.supp %}
         {% if entry.supp contains '://' %}
-          <a href="{{ entry.supp }}" class="btn btn-sm z-depth-0" role="button">{{ 'Supp' | t }}</a>
+          <a href="{{ entry.supp }}" class="btn btn-sm z-depth-0" role="button">{{ 'Supp' | localize }}</a>
         {% else %}
-          <a href="{{ entry.supp | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'Supp' | t }}</a>
+          <a href="{{ entry.supp | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'Supp' | localize }}</a>
         {% endif %}
       {% endif %}
       {% if entry.video and site.enable_video_embedding %}
-        <a class="abstract btn btn-sm z-depth-0" role="button">{{ 'Video' | t }}</a>
+        <a class="abstract btn btn-sm z-depth-0" role="button">{{ 'Video' | localize }}</a>
       {% elsif entry.video %}
-        <a href="{{ entry.video }}" class="btn btn-sm z-depth-0" role="button">{{ 'Video' | t }}</a>
+        <a href="{{ entry.video }}" class="btn btn-sm z-depth-0" role="button">{{ 'Video' | localize }}</a>
       {% endif %}
       {% if entry.blog %}
-        <a href="{{ entry.blog }}" class="btn btn-sm z-depth-0" role="button">{{ 'Blog' | t }}</a>
+        <a href="{{ entry.blog }}" class="btn btn-sm z-depth-0" role="button">{{ 'Blog' | localize }}</a>
       {% endif %}
       {% if entry.code %}
-        <a href="{{ entry.code }}" class="btn btn-sm z-depth-0" role="button">{{ 'Code' | t }}</a>
+        <a href="{{ entry.code }}" class="btn btn-sm z-depth-0" role="button">{{ 'Code' | localize }}</a>
       {% endif %}
       {% if entry.poster %}
         {% if entry.poster contains '://' %}
-          <a href="{{ entry.poster }}" class="btn btn-sm z-depth-0" role="button">{{ 'Poster' | t }}</a>
+          <a href="{{ entry.poster }}" class="btn btn-sm z-depth-0" role="button">{{ 'Poster' | localize }}</a>
         {% else %}
-          <a href="{{ entry.poster | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'Poster' | t }}</a>
+          <a href="{{ entry.poster | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'Poster' | localize }}</a>
         {% endif %}
       {% endif %}
       {% if entry.slides %}
         {% if entry.slides contains '://' %}
-          <a href="{{ entry.slides }}" class="btn btn-sm z-depth-0" role="button">{{ 'Slides' | t }}</a>
+          <a href="{{ entry.slides }}" class="btn btn-sm z-depth-0" role="button">{{ 'Slides' | localize }}</a>
         {% else %}
-          <a href="{{ entry.slides | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'Slides' | t }}</a>
+          <a href="{{ entry.slides | prepend: '/assets/pdf/' | relative_url }}" class="btn btn-sm z-depth-0" role="button">{{ 'Slides' | localize }}</a>
         {% endif %}
       {% endif %}
       {% if entry.website %}
-        <a href="{{ entry.website }}" class="btn btn-sm z-depth-0" role="button">{{ 'Website' | t }}</a>
+        <a href="{{ entry.website }}" class="btn btn-sm z-depth-0" role="button">{{ 'Website' | localize }}</a>
       {% endif %}
     </div>
     {% if site.enable_publication_badges %}

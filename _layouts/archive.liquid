@@ -5,13 +5,13 @@ layout: default
   <header class="post-header">
     {% if page.type == 'categories' %}
       <h1 class="post-title"><i class="fa-solid fa-tag fa-sm"></i> {{ page.title }}</h1>
-      <p class="post-description">{{ 'an archive of' | t }} {{ page.collection_name }} {{ 'in this category' | t }}</p>
+      <p class="post-description">{{ 'an archive of' | localize }} {{ page.collection_name }} {{ 'in this category' | localize }}</p>
     {% elsif page.type == 'year' %}
       <h1 class="post-title"><i class="fa-solid fa-calendar fa-sm"></i> {{ page.date | date: '%Y' }}</h1>
-      <p class="post-description">{{ 'an archive of' | t }} {{ page.collection_name }} {{ 'from this year' | t }}</p>
+      <p class="post-description">{{ 'an archive of' | localize }} {{ page.collection_name }} {{ 'from this year' | localize }}</p>
     {% elsif page.type == 'tags' %}
       <h1 class="post-title"><i class="fa-solid fa-hashtag fa-sm"></i> {{ page.title }}</h1>
-      <p class="post-description">{{ 'an archive of' | t }} {{ page.collection_name }} {{ 'with this tag' | t }}</p>
+      <p class="post-description">{{ 'an archive of' | localize }} {{ page.collection_name }} {{ 'with this tag' | localize }}</p>
     {% endif %}
   </header>
 
