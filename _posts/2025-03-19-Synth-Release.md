@@ -100,7 +100,7 @@ With these elements in mind, I designed a simplified architecture for my synthes
 2. **Core Sound Engine Development**:
    - Implemented basic waveforms using C++, ensuring they were optimized for performance.
    - Developed an FM synthesis module, allowing users to adjust frequency modulation parameters dynamically.
-   - Created a formant engine.
+   - Created a formant engine for voice synthesis.
 
 3. **Modulation System**:
    - Added modulation options for the most important parameters

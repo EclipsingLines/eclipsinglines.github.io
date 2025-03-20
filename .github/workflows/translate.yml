@@ -39,7 +39,7 @@ jobs:
           FILENAME=$(basename "$INPUT_FILE")
           FILENAME_WITHOUT_EXT="${FILENAME%.*}"
           OUTPUT_FILE="_posts/es/$FILENAME_WITHOUT_EXT-es.md"
-          python translate.py "$INPUT_FILE" "$OUTPUT_FILE" "$OPENROUTER_API_KEY" "google/gemini-2.0-flash-001"
+          python translate.py "$INPUT_FILE" "$OUTPUT_FILE" "$OPENROUTER_API_KEY" "gemini/gemini-2-flash"
       - name: Commit and push changes
         if: steps.check_translation.outputs.exists == 'false'
         run: |
