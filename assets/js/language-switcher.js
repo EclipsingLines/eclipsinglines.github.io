@@ -45,58 +45,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Get the preferred language from the cookie
-    var preferredLang = getCookie('preferred_lang') || 'en';
-
-    // Set the detected_locale data attribute on the html element
-    document.documentElement.setAttribute('data-locale', preferredLang);
+    var preferredLang = getCookie('preferred_lang');
 
     // Update the language switcher UI based on the preferred language
-    // Update the language icon text
-    var languageIcon = document.querySelector('#languageDropdown i');
-    if (languageIcon) {
-        languageIcon.textContent = preferredLang.toUpperCase();
-    }
-
-    // Update the active class in the dropdown menu
-    var dropdownItems = document.querySelectorAll('.language-switcher .dropdown-item');
-    dropdownItems.forEach(function (item) {
-        if (item.getAttribute('href').includes('lang=' + preferredLang)) {
-            item.classList.add('active');
-        } else {
-            item.classList.remove('active');
+    if (preferredLang) {
+        // Update the language icon text
+        var languageIcon = document.querySelector('#languageDropdown i');
+        if (languageIcon) {
+            languageIcon.textContent = preferredLang.toUpperCase();
         }
-    });
 
-    // Handle language switcher clicks
-    var languageLinks = document.querySelectorAll('.language-switcher .dropdown-item');
-    languageLinks.forEach(function (link) {
-        link.addEventListener('click', function (e) {
-            e.preventDefault();
-            var lang = this.getAttribute('href').split('lang=')[1];
-            setCookie('preferred_lang', lang, 30);
-            window.location.reload();
-        });
-    });
-
-    // If the preferred language is Spanish, show Spanish content and hide English content
-    if (preferredLang === 'es') {
-        // Find all elements with the lang attribute
-        var elements = document.querySelectorAll('[lang]');
-        elements.forEach(function (element) {
-            if (element.getAttribute('lang') === 'es') {
-                element.style.display = '';
+        // Update the active class in the dropdown menu
+        var dropdownItems = document.querySelectorAll('.language-switcher .dropdown-item');
+        dropdownItems.forEach(function (item) {
+            if (item.getAttribute('href').includes('lang=' + preferredLang)) {
+                item.classList.add('active');
             } else {
-                element.style.display = 'none';
-            }
-        });
-    } else {
-        // Find all elements with the lang attribute
-        var elements = document.querySelectorAll('[lang]');
-        elements.forEach(function (element) {
-            if (element.getAttribute('lang') === 'en') {
-                element.style.display = '';
-            } else {
-                element.style.display = 'none';
+                item.classList.remove('active');
             }
         });
     }
