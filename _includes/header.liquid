@@ -125,6 +125,34 @@
               </button>
             </li>
           {% endif %}
+          
+          <!-- Language Switcher -->
+          <li class="nav-item dropdown language-switcher">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="languageDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {% if site.detected_locale == 'es' %}
+                <i class="ti ti-language">ES</i>
+              {% else %}
+                <i class="ti ti-language">EN</i>
+              {% endif %}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
+              <a class="dropdown-item {% if site.detected_locale == 'en' %}active{% endif %}" href="?lang=en">
+                English
+              </a>
+              <a class="dropdown-item {% if site.detected_locale == 'es' %}active{% endif %}" href="?lang=es">
+                Español
+              </a>
+            </div>
+          </li>
+          
           {% if site.enable_darkmode %}
             <!-- Toogle theme mode -->
             <li class="toggle-container">
