@@ -39,7 +39,7 @@ jobs:
             # Check if translation exists
             if [ ! -f "$OUTPUT_FILE" ]; then
               echo "Translating $INPUT_FILE"
-              python "$(pwd)/translate.py" "$(pwd)/$INPUT_FILE" "$(pwd)/$OUTPUT_FILE" "$OPENROUTER_API_KEY" "gemini/gemini-2-flash"
+              python "$(pwd)/translate.py" "$(pwd)/$INPUT_FILE" "$(pwd)/$OUTPUT_FILE" "$OPENROUTER_API_KEY" "google/gemini-2.0-flash-001"
             else
               echo "Translation already exists for $INPUT_FILE, skipping."
             fi
