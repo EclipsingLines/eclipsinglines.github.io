@@ -9,6 +9,8 @@ tags:
   - c++
 categories: Godot
 featured: true
+toc:
+  sidebar: left
 ---
 
 ## Overview

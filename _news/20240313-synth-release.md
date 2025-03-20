@@ -1,6 +1,7 @@
 ---
 layout: post
-date: 2025-03-13
+title: First Public Release of the Godot Synth Plugin
+date: 2025-03-17
 inline: false
 related_posts: false
 ---
