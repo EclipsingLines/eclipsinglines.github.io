@@ -37,7 +37,13 @@ document.addEventListener('DOMContentLoaded', function () {
         var dropdownItems = document.querySelectorAll('.language-switcher .dropdown-item');
         dropdownItems.forEach(function (item) {
             var lang = item.getAttribute('data-lang');
-            var href = '/' + lang + window.location.pathname;
+            var path = window.location.pathname;
+            if (path.startsWith('/en/')) {
+                path = path.substring(3);
+            } else if (path.startsWith('/es/')) {
+                path = path.substring(3);
+            }
+            var href = '/' + lang + path;
             item.setAttribute('href', href);
             if (lang === preferredLang) {
                 item.classList.add('active');
