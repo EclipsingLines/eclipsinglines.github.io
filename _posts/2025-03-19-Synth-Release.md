@@ -103,7 +103,7 @@ With these elements in mind, I designed a simplified architecture for my synthes
    - Created a formant engine for voice synthesis.
 
 3. **Modulation System**:
-   - Added modulation options for the most important parameters
+   - Added modulation options for the most important parameters.
 
 4. **User Interface Components**:
    - Integrated custom UI components in Godot that allow users to interact with the synthesizer easily.
