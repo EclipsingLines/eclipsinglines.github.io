@@ -223,7 +223,6 @@ plugins:
   - jekyll-toc
   - jekyll-twitter-plugin
   - jemoji
-  - _plugins/locale_content_loader.rb
 
 # Sitemap settings
 defaults:
