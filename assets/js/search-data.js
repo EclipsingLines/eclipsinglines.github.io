@@ -44,18 +44,7 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/cv/";
               },
-            },{id: "post-synth-release-copy-es",
-      
-        title: "Synth Release copy Es",
-      
-      description: "",
-      section: "Posts",
-      handler: () => {
-        
-          window.location.href = "/blog/2025/Synth-Release-copy-es/";
-        
-      },
-    },{id: "post-godot-synth-release",
+            },{id: "post-godot-synth-release",
       
         title: "Godot Synth Release",
       
@@ -64,17 +53,6 @@ ninja.data = [{
       handler: () => {
         
           window.location.href = "/blog/2025/Synth-Release/";
-        
-      },
-    },{id: "post-godot-synth-release-test",
-      
-        title: "Godot Synth Release test",
-      
-      description: "First public release of the Godot Synth Plugin",
-      section: "Posts",
-      handler: () => {
-        
-          window.location.href = "/blog/2025/Synth-Release-copy/";
         
       },
     },{id: "books-the-godfather",
