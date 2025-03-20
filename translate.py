@@ -13,12 +13,18 @@ def translate_content(content, api_key, model, prompt):
         "model": model,
         "messages": [
             {"role": "system", "content": prompt},
-            {"role": "user", "content": "Translate the following content to Spanish, return ONLY the translated text: {content}"}
+            {"role": "user", "content": f"Translate the following content to Spanish, return ONLY the translated text: {content}"}
         ]
     }
-    response = requests.post(url, headers=headers, json=data)
-    response.raise_for_status()
-    return response.json()["choices"][0]["message"]["content"]
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()  # Raise HTTPError for bad responses (4xx or 5xx)
+        return response.json()["choices"][0]["message"]["content"]
+    except requests.exceptions.HTTPError as e:
+        print(f"Error: HTTP error during API request: {e}")
+        print(f"Response content: {e.response.content.decode()}")  # Print the response content for debugging
+        raise  # Re-raise the exception to be caught in main()
+
 
 def main():
     if len(sys.argv) != 5:

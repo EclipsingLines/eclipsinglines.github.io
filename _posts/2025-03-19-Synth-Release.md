@@ -111,7 +111,6 @@ With these elements in mind, I designed a simplified architecture for my synthes
 
 5. **Testing and Optimization**:
    - Conducted extensive testing on various devices (including lower-end Android phones) to ensure performance remained high even with multiple instances running simultaneously.
-   - Profiled code regularly using Godot's built-in debugging tools to identify any bottlenecks.
 
 ### Early Results
 
