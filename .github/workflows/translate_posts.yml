@@ -1,4 +1,4 @@
-name: Translate News
+name: Translate Posts
 
 on:
   workflow_dispatch:
@@ -15,21 +15,21 @@ jobs:
       - name: Install dependencies
         run: |
           pip install requests pyyaml
-      - name: Translate missing news
+      - name: Translate missing posts
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           # Create the es directory if it doesn't exist
-          mkdir -p _news/es
+          mkdir -p _posts/es
           
-          # Get all files in _news directory (excluding the es directory)
-          NEWS_FILES=$(find _news -maxdepth 1 -name "*.md" -print)
+          # Get all files in _posts directory (excluding the es directory)
+          POST_FILES=$(find _posts -maxdepth 1 -name "*.md" -print)
 
-          # Loop through each news file
-          for INPUT_FILE in $NEWS_FILES; do
+          # Loop through each post file
+          for INPUT_FILE in $POST_FILES; do
             FILENAME=$(basename "$INPUT_FILE")
             FILENAME_WITHOUT_EXT="${FILENAME%.*}"
-            OUTPUT_FILE="_news/es/$FILENAME_WITHOUT_EXT-es.md"
+            OUTPUT_FILE="_posts/es/$FILENAME_WITHOUT_EXT-es.md"
 
             # Check if translation exists
             if [ ! -f "$OUTPUT_FILE" ]; then
@@ -45,12 +45,12 @@ jobs:
           git config --global user.name "GitHub Actions"
           
           # Add any new files first
-          git add _news/es/*-es.md
+          git add _posts/es/*-es.md
           
           # Check if there are any changes to commit
           if git diff --quiet --cached; then
             echo "No changes to commit"
             exit 0
           fi
-          git commit -m "Translated missing news to Spanish"
+          git commit -m "Translated missing posts to Spanish"
           git push

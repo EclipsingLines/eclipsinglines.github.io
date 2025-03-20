@@ -1,0 +1,85 @@
+name: Orchestrate Translation and Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  orchestrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Translation Workflows
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'translate_posts.yml',
+              ref: context.ref
+            });
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'translate_news.yml',
+              ref: context.ref
+            });
+      - name: Wait for Translation Workflows
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const ref = context.ref;
+
+            async function checkWorkflowStatus(workflow_id) {
+              const listRunsResponse = await github.rest.actions.listWorkflowRuns({
+                owner: owner,
+                repo: repo,
+                workflow_id: workflow_id,
+                branch: ref.split('/')[2], // Extract branch name from ref
+                event: 'workflow_dispatch',
+                status: 'completed',
+              });
+
+              if (listRunsResponse.data.workflow_runs.length > 0) {
+                const run = listRunsResponse.data.workflow_runs[0];
+                console.log(`Workflow \${workflow_id} status: \${run.conclusion}`);
+                return run.conclusion === 'success';
+              } else {
+                console.log(`No completed workflow runs found for \${workflow_id}`);
+                return false;
+              }
+            }
+
+            // Wait for translate_posts.yml to complete
+            let postsCompleted = false;
+            while (!postsCompleted) {
+              postsCompleted = await checkWorkflowStatus('translate_posts.yml');
+              if (!postsCompleted) {
+                console.log('Waiting for translate_posts.yml to complete...');
+                await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
+              }
+            }
+
+            // Wait for translate_news.yml to complete
+            let newsCompleted = false;
+            while (!newsCompleted) {
+              newsCompleted = await checkWorkflowStatus('translate_news.yml');
+              if (!newsCompleted) {
+                console.log('Waiting for translate_news.yml to complete...');
+                await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
+              }
+            }
+      - name: Call Deploy Action
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: context.ref
+            });
