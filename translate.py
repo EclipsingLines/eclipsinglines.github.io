@@ -88,7 +88,8 @@ def process_file(input_file, target_language, api_key, model, translations):
         print(f"translations keys: {list(translations.keys())}")
         
         # Add the lang front matter
-        frontmatter_data["lang"] = target_language
+        if target_language != "en":
+            frontmatter_data["lang"] = target_language
 
         # Rebuild the frontmatter
         new_frontmatter = "---\n" + yaml.dump(frontmatter_data, allow_unicode=True) + "---\n"
