@@ -63,8 +63,8 @@ ninja.data = [{
             },},{id: "news-brand-new-website-sharing-my-code-for-games-tools-and-research",
           title: 'Brand new website, sharing my code for games, tools and research.',
           description: "",
-          section: "News",},{id: "news-20240313-synth-release",
-          title: '20240313 Synth Release',
+          section: "News",},{id: "news-first-public-release-of-the-godot-synth-plugin",
+          title: 'First Public Release of the Godot Synth Plugin',
           description: "",
           section: "News",handler: () => {
               window.location.href = "/news/20240313-synth-release/";
