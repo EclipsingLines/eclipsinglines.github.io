@@ -1,58 +1,103 @@
-// Language Switcher JavaScript
-
 document.addEventListener('DOMContentLoaded', function () {
-    // Get all language switcher links
-    const languageSwitcherLinks = document.querySelectorAll('.language-switcher .dropdown-item');
+    // Function to get URL parameters
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
 
-    // Add click event listener to each link
-    languageSwitcherLinks.forEach(function (link) {
-        link.addEventListener('click', function (event) {
-            // Get the href attribute
-            const href = this.getAttribute('href');
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
-            // If the href is just a query parameter (e.g., ?lang=en)
-            if (href.startsWith('?')) {
-                event.preventDefault();
+    // Function to get a cookie
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
 
-                // Get the current URL
-                const currentUrl = window.location.href;
+    // Get the lang parameter from the URL
+    var langParam = getUrlParameter('lang');
 
-                // Check if the URL already has query parameters
-                const hasQueryParams = currentUrl.includes('?');
+    // If the lang parameter is present, set it as a cookie and reload the page
+    if (langParam && (langParam === 'en' || langParam === 'es')) {
+        setCookie('preferred_lang', langParam, 30); // Set the cookie to expire in 30 days
 
-                // Construct the new URL
-                let newUrl;
-                if (hasQueryParams) {
-                    // If the URL already has query parameters, replace the lang parameter if it exists
-                    const urlParts = currentUrl.split('?');
-                    const baseUrl = urlParts[0];
-                    const queryParams = urlParts[1].split('&');
+        // If we're on a page with a query parameter, reload without it to avoid duplicate parameters
+        if (window.location.search) {
+            window.location.href = window.location.pathname;
+            return; // Stop execution to prevent the rest of the code from running
+        }
+    }
 
-                    // Find and replace the lang parameter
-                    let langParamExists = false;
-                    const newQueryParams = queryParams.map(function (param) {
-                        if (param.startsWith('lang=')) {
-                            langParamExists = true;
-                            return href.substring(1); // Remove the ? from the href
-                        }
-                        return param;
-                    });
+    // Get the preferred language from the cookie
+    var preferredLang = getCookie('preferred_lang') || 'en';
 
-                    // If the lang parameter doesn't exist, add it
-                    if (!langParamExists) {
-                        newQueryParams.push(href.substring(1)); // Remove the ? from the href
-                    }
+    // Set the detected_locale data attribute on the html element
+    document.documentElement.setAttribute('data-locale', preferredLang);
 
-                    // Construct the new URL
-                    newUrl = baseUrl + '?' + newQueryParams.join('&');
-                } else {
-                    // If the URL doesn't have query parameters, add the lang parameter
-                    newUrl = currentUrl + href;
-                }
+    // Update the language switcher UI based on the preferred language
+    // Update the language icon text
+    var languageIcon = document.querySelector('#languageDropdown i');
+    if (languageIcon) {
+        languageIcon.textContent = preferredLang.toUpperCase();
+    }
 
-                // Navigate to the new URL
-                window.location.href = newUrl;
-            }
+    // Update the active class in the dropdown menu
+    var dropdownItems = document.querySelectorAll('.language-switcher .dropdown-item');
+    dropdownItems.forEach(function (item) {
+        if (item.getAttribute('href').includes('lang=' + preferredLang)) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+
+    // Handle language switcher clicks
+    var languageLinks = document.querySelectorAll('.language-switcher .dropdown-item');
+    languageLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            var lang = this.getAttribute('href').split('lang=')[1];
+            setCookie('preferred_lang', lang, 30);
+            window.location.reload();
         });
     });
+
+    // If the preferred language is Spanish, show Spanish content and hide English content
+    if (preferredLang === 'es') {
+        // Find all elements with the lang attribute
+        var elements = document.querySelectorAll('[lang]');
+        elements.forEach(function (element) {
+            if (element.getAttribute('lang') === 'es') {
+                element.style.display = '';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+    } else {
+        // Find all elements with the lang attribute
+        var elements = document.querySelectorAll('[lang]');
+        elements.forEach(function (element) {
+            if (element.getAttribute('lang') === 'en') {
+                element.style.display = '';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+    }
 });

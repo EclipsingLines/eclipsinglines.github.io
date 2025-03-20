@@ -4,12 +4,6 @@ module Jekyll
     priority :low  # Run after LocaleDetector
 
     def generate(site)
-      # Get the detected locale from the site configuration
-      locale = site.config['detected_locale'] || site.config['lang'] || 'en'
-      
-      # If the locale is not Spanish, we don't need to do anything special
-      return if locale != 'es'
-      
       # For each collection that might have translated content
       ['posts', 'news'].each do |collection_name|
         # Skip if the collection doesn't exist
@@ -54,11 +48,10 @@ module Jekyll
           es_doc.content = es_content
           es_doc.data.merge!(es_front_matter)
           
-          # Set the URL to be the same as the original doc
-          es_doc.data['url'] = doc.url
+          # Set the URL to be the same as the original doc but with a language parameter
+          es_doc.data['url'] = "#{doc.url}?lang=es"
           
-          # Replace the original doc with the Spanish version in the collection
-          collection.docs.delete(doc)
+          # Add the Spanish version to the collection (don't replace the original)
           collection.docs << es_doc
         end
       end
