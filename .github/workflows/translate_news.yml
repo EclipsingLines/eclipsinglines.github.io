@@ -1,0 +1,61 @@
+name: Translate News
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '_news/**/*'
+  workflow_dispatch:
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+          pip install requests pyyaml
+      - name: Translate missing news
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          # Create the es directory if it doesn't exist
+          mkdir -p _news/es
+          
+          # Get all files in _news directory (excluding the es directory)
+          NEWS_FILES=$(find _news -maxdepth 1 -name "*.md" -print)
+
+          # Loop through each news file
+          for INPUT_FILE in $NEWS_FILES; do
+            FILENAME=$(basename "$INPUT_FILE")
+            FILENAME_WITHOUT_EXT="${FILENAME%.*}"
+            OUTPUT_FILE="_news/es/$FILENAME_WITHOUT_EXT-es.md"
+
+            # Check if translation exists
+            if [ ! -f "$OUTPUT_FILE" ]; then
+              echo "Translating $INPUT_FILE"
+              python "$(pwd)/translate.py" "$(pwd)/$INPUT_FILE" "$(pwd)/$OUTPUT_FILE" "$OPENROUTER_API_KEY" "google/gemini-2.0-flash-001"
+            else
+              echo "Translation already exists for $INPUT_FILE, skipping."
+            fi
+          done
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          
+          # Add any new files first
+          git add _news/es/*-es.md
+          
+          # Check if there are any changes to commit
+          if git diff --quiet --cached; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Translated missing news to Spanish"
+          git push
