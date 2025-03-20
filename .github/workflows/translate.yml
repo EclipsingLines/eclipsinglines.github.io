@@ -24,8 +24,11 @@ jobs:
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          # Get all files in _posts directory
-          POST_FILES=$(find _posts -name "*.md" -print)
+          # Create the es directory if it doesn't exist
+          mkdir -p _posts/es
+          
+          # Get all files in _posts directory (excluding the es directory)
+          POST_FILES=$(find _posts -maxdepth 1 -name "*.md" -print)
 
           # Loop through each post file
           for INPUT_FILE in $POST_FILES; do
@@ -36,7 +39,7 @@ jobs:
             # Check if translation exists
             if [ ! -f "$OUTPUT_FILE" ]; then
               echo "Translating $INPUT_FILE"
-              python translate.py "$INPUT_FILE" "$OUTPUT_FILE" "$OPENROUTER_API_KEY" "google/gemini-2.0-flash-001"
+              python "$(pwd)/translate.py" "$(pwd)/$INPUT_FILE" "$(pwd)/$OUTPUT_FILE" "$OPENROUTER_API_KEY" "gemini/gemini-2-flash"
             else
               echo "Translation already exists for $INPUT_FILE, skipping."
             fi
@@ -45,6 +48,13 @@ jobs:
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
+          
+          # Check if there are any changes to commit
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
           git add _posts/es/*-es.md
           git commit -m "Translated missing posts to Spanish"
           git push
