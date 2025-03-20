@@ -44,15 +44,31 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/cv/";
               },
-            },{id: "books-the-godfather",
+            },{id: "post-godot-synth-release",
+      
+        title: "Godot Synth Release",
+      
+      description: "First public release of the Godot Synth Plugin",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/Synth-Release/";
+        
+      },
+    },{id: "books-the-godfather",
           title: 'The Godfather',
           description: "",
           section: "Books",handler: () => {
               window.location.href = "/books/the_godfather/";
-            },},{id: "news-brand-new-website-sharing-my-code-for-games-tools-and-research-website",
-          title: 'Brand new website, sharing my code for games, tools and research. Website',
+            },},{id: "news-brand-new-website-sharing-my-code-for-games-tools-and-research",
+          title: 'Brand new website, sharing my code for games, tools and research.',
           description: "",
-          section: "News",},{id: "projects-project-faith",
+          section: "News",},{id: "news-20240313-synth-release",
+          title: '20240313 Synth Release',
+          description: "",
+          section: "News",handler: () => {
+              window.location.href = "/news/20240313-synth-release/";
+            },},{id: "projects-project-faith",
           title: 'Project FAITH',
           description: "Faith is Active Inference for Thinking Humans",
           section: "Projects",handler: () => {
