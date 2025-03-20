@@ -52,6 +52,17 @@ ninja.data = [{
       section: "Posts",
       handler: () => {
         
+          window.location.href = "/blog/2025/Synth-Release-es/";
+        
+      },
+    },{id: "post-godot-synth-release",
+      
+        title: "Godot Synth Release",
+      
+      description: "First public release of the Godot Synth Plugin",
+      section: "Posts",
+      handler: () => {
+        
           window.location.href = "/blog/2025/Synth-Release/";
         
       },
@@ -63,11 +74,19 @@ ninja.data = [{
             },},{id: "news-brand-new-website-sharing-my-code-for-games-tools-and-research",
           title: 'Brand new website, sharing my code for games, tools and research.',
           description: "",
+          section: "News",},{id: "news-sitio-web-completamente-nuevo-donde-comparto-mi-código-para-juegos-herramientas-e-investigación",
+          title: 'Sitio web completamente nuevo, donde comparto mi código para juegos, herramientas e investigación....',
+          description: "",
           section: "News",},{id: "news-first-public-release-of-the-godot-synth-plugin",
           title: 'First Public Release of the Godot Synth Plugin',
           description: "",
           section: "News",handler: () => {
               window.location.href = "/news/20240313-synth-release/";
+            },},{id: "news-first-public-release-of-the-godot-synth-plugin",
+          title: 'First Public Release of the Godot Synth Plugin',
+          description: "",
+          section: "News",handler: () => {
+              window.location.href = "/news/es/20240313-synth-release-es/";
             },},{id: "projects-project-faith",
           title: 'Project FAITH',
           description: "Faith is Active Inference for Thinking Humans",
