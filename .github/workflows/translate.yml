@@ -2,8 +2,11 @@ name: Translate Posts
 
 on:
   push:
+    branches:
+      - main
     paths:
       - '_posts/**/*'
+  workflow_dispatch:
 
 jobs:
   translate:
@@ -17,36 +20,31 @@ jobs:
       - name: Install dependencies
         run: |
           pip install requests pyyaml
-      - name: Translate post
+      - name: Translate missing posts
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          # Get the list of changed files
-          CHANGED_FILES=$(echo ${{ github.event.commits[0].modified }} | tr -d '[]' | tr -d '"' | sed 's/,/ /g')
+          # Get all files in _posts directory
+          POST_FILES=$(find _posts -name "*.md" -print)
 
-          # Find the first markdown file in the list of changed files
-          INPUT_FILE=""
-          for FILE in $CHANGED_FILES; do
-            if [[ "$FILE" == *_posts/*.md ]]; then
-              INPUT_FILE="$FILE"
-              break
+          # Loop through each post file
+          for INPUT_FILE in $POST_FILES; do
+            FILENAME=$(basename "$INPUT_FILE")
+            FILENAME_WITHOUT_EXT="${FILENAME%.*}"
+            OUTPUT_FILE="_posts/es/$FILENAME_WITHOUT_EXT-es.md"
+
+            # Check if translation exists
+            if [ ! -f "$OUTPUT_FILE" ]; then
+              echo "Translating $INPUT_FILE"
+              python translate.py "$INPUT_FILE" "$OUTPUT_FILE" "$OPENROUTER_API_KEY" "gemini/gemini-2-flash"
+            else
+              echo "Translation already exists for $INPUT_FILE, skipping."
             fi
           done
-
-          if [ -z "$INPUT_FILE" ]; then
-            echo "No markdown file found in the list of changed files, skipping."
-            exit 0
-          fi
-
-          FILENAME=$(basename "$INPUT_FILE")
-          FILENAME_WITHOUT_EXT="${FILENAME%.*}"
-          OUTPUT_FILE="_posts/es/$FILENAME_WITHOUT_EXT-es.md"
-          python translate.py "$INPUT_FILE" "$OUTPUT_FILE" "$OPENROUTER_API_KEY" "gemini/gemini-2-flash"
       - name: Commit and push changes
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-          mkdir -p _posts/es
           git add _posts/es/*-es.md
-          git commit -m "Translated post to Spanish"
+          git commit -m "Translated missing posts to Spanish"
           git push
