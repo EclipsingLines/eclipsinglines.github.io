@@ -15,8 +15,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install requests pyyaml
-      - name: Install Jekyll plugins
-        run: bundle install
       - name: Translate missing posts
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
