@@ -2,10 +2,10 @@
   {% for content in entry.contents %}
     <tr>
       <td class="p-1 pr-2 font-weight-bold">
-        <b>{{ content.name }}</b>
+        <b>{{ content.name | t }}</b>
       </td>
       {% if content.value %}
-        <td class="p-1 pl-2 font-weight-light text">{{ content.value }}</td>
+        <td class="p-1 pl-2 font-weight-light text">{{ content.value | t }}</td>
       {% endif %}
       {% if content.links %}
         <td class="p-1 pl-2 font-weight-light text">
@@ -14,9 +14,9 @@
               {% if item.link %}
                 <div class="container-link-button">
                   {% if item.name %}
-                    <a href="{{ item.link }}" target="_blank" class="btncv z-depth-0">{{ item.name }}</a>
+                    <a href="{{ item.link }}" target="_blank" class="btncv z-depth-0">{{ item.name | t }}</a>
                   {% else %}
-                    <a href="{{ item.link }}" target="_blank" class="btncv z-depth-0">doc</a>
+                    <a href="{{ item.link }}" target="_blank" class="btncv z-depth-0">{{ 'doc' | t }}</a>
                   {% endif %}
                 </div>
               {% endif %}

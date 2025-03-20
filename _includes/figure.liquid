@@ -63,10 +63,10 @@
         "
       {% endif %}
       {% if include.alt %}
-        alt="{{ include.alt }}"
+        alt="{{ include.alt | t }}"
       {% endif %}
       {% if include.title %}
-        title="{{ include.title }}"
+        title="{{ include.title | t }}"
       {% endif %}
       {% if include.zoomable %}
         data-zoomable
@@ -81,6 +81,6 @@
   </picture>
 
   {% if include.caption %}
-    <figcaption class="caption">{{ include.caption }}</figcaption>
+    <figcaption class="caption">{{ include.caption | t }}</figcaption>
   {% endif %}
 </figure>

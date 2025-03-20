@@ -17,8 +17,8 @@
   <d-front-matter>
     <script async type="text/json">
       {
-            "title": "{{ page.title }}",
-            "description": "{{ page.description }}",
+            "title": "{{ page.title | t }}",
+            "description": "{{ page.description | t }}",
             "published": "{{ page.date | date: '%B %d, %Y' }}",
             "authors": [
               {% for author in page.authors %}
@@ -59,8 +59,8 @@
     <!-- Content -->
     <div class="post distill">
       <d-title>
-        <h1>{{ page.title }}</h1>
-        <p>{{ page.description }}</p>
+        <h1>{{ page.title | t }}</h1>
+        <p>{{ page.description | t }}</p>
       </d-title>
       {% if page.authors %}
         <d-byline></d-byline>
@@ -70,7 +70,7 @@
         {% if page.toc %}
           <d-contents>
             <nav class="l-text figcaption">
-              <h3>Contents</h3>
+              <h3>{{ 'Contents' | t }}</h3>
               {% for section in page.toc %}
                 <div>
                   <a href="#{{ section.name | slugify }}">{{ section.name }}</a>

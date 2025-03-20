@@ -30,10 +30,10 @@
         height="{{ include.max-height }}"
       {% endif %}
       {% if include.title %}
-        title="{{ include.title }}"
+        title="{{ include.title | t }}"
       {% endif %}
       {% if include.alt %}
-        alt="{{ include.alt }}"
+        alt="{{ include.alt | t }}"
       {% endif %}
       {% if include.autoplay %}
         autoplay
@@ -66,11 +66,6 @@
       {% else %}
         width="auto"
       {% endif %}
-      {% if include.height %}
-        height="{{ include.height }}"
-      {% else %}
-        height="auto"
-      {% endif %}
       {% if include['min-width'] %}
         min-width="{{ include.min-width }}"
       {% endif %}
@@ -84,14 +79,14 @@
         height="{{ include.max-height }}"
       {% endif %}
       {% if include.alt %}
-        alt="{{ include.alt }}"
+        alt="{{ include.alt | t }}"
       {% endif %}
       {% if include.title %}
-        title="{{ include.title }}"
+        title="{{ include.title | t }}"
       {% endif %}
     />
   {% endif %}
   {% if include.caption %}
-    <figcaption class="caption">{{ include.caption }}</figcaption>
+    <figcaption class="caption">{{ include.caption | t }}</figcaption>
   {% endif %}
 </figure>

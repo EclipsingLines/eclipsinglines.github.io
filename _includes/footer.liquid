@@ -2,10 +2,10 @@
   {{ site.footer_text }}
   {{ site.copyright }}
   {% if site.impressum_path %}
-    <a href="{{ site.url }}{{ site.baseurl }}{{ site.impressum_path }}">Impressum</a>.
+    <a href="{{ site.url }}{{ site.baseurl }}{{ site.impressum_path }}">{{ 'Impressum' | t }}</a>.
   {% endif %}
   {% if site.last_updated %}
-    Last updated: {{ 'now' | date: '%B %d, %Y' }}.
+    {{ 'Last updated:' | t }} {{ 'now' | date: '%B %d, %Y' }}.
   {% endif %}
 {% endcapture %}
 

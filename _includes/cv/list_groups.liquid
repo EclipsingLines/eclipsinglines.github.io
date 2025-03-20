@@ -14,13 +14,13 @@
             {% for item in content.items %}
               {% assign i = i | plus: 1 %}
             {% endfor %}
-            <td colspan="{{ i }}" class="list-group-category">{{ content.category }}</td>
+            <td colspan="{{ i }}" class="list-group-category">{{ content.category | t }}</td>
           </tr>
           {% for item in content.items %}
             <tr>
               <td></td>
               <td class="list-group-name">
-                <b>{{ item.name }}</b>
+                <b>{{ item.name | t }}</b>
               </td>
               {% if item.level %}
                 <td class="list-group-level">{{ item.level }}</td>
@@ -38,7 +38,7 @@
               {% if item.link %}
                 <td class="list-group-link">
                   <a href="{{ item.link }}" target="_blank" class="btncv z-depth-0">
-                    {% if item.linkname %}{{ item.linkname }}{% else %}DOC{% endif %}
+                    {% if item.linkname %}{{ item.linkname | t }}{% else %}{{ 'DOC' | t }}{% endif %}
                   </a>
                 </td>
               {% endif %}
