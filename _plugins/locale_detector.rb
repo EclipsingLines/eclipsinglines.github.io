@@ -30,7 +30,7 @@ module Jekyll
       end
       
       # Check if the preferred language is supported
-      supported_langs = Dir.glob("_data/translations/*.yml").map { |f| File.basename(f, '.yml') }
+      supported_langs = Dir.glob("_i18n/*.yml").map { |f| File.basename(f, '.yml') }
       
       # If the preferred language is not supported, fall back to the default language
       if !supported_langs.include?(preferred_lang)

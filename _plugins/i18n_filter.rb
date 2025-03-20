@@ -6,7 +6,7 @@ module Jekyll
 
       # Load the translations for the detected locale
       begin
-        translations = YAML.load_file("_data/translations/#{lang}.yml")
+        translations = YAML.load_file("_i18n/#{lang}.yml")
         # Return the translated text or the original text if no translation is found
         translations[input] || input
       rescue

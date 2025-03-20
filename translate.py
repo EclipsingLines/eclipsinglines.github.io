@@ -110,7 +110,9 @@ def main():
     output_file = sys.argv[5]
 
     # Clear the output file before writing new content
-    translations_file = f"_data/translations/{target_language}.yml"
+    # Create _i18n directory if it doesn't exist
+    os.makedirs("_i18n", exist_ok=True)
+    translations_file = f"_i18n/{target_language}.yml"
     if os.path.exists(translations_file):
         with open(translations_file, "w", encoding="utf-8") as f:
             f.write("")  # Clear the file
