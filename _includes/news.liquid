@@ -24,13 +24,9 @@
             <th scope="row" style="width: 20%">{{ item.date | date: '%b %d, %Y' }}</th>
             <td>
               {% if item.inline %}
-                {{ item.content | remove: '<p>' | remove: '</p>' | emojify }}
+                {{ item.content | remove: '<p>' | remove: '</p>' | emojify | localized_content }}
               {% else %}
-                {% if translated_item %}
-                  <a class="news-title" href="{{ translated_item.url | relative_url }}">{{ translated_item.title }}</a>
-                {% else %}
-                  <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title }}</a>
-                {% endif %}
+                <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title | localized_content }}</a>
               {% endif %}
             </td>
           </tr>
