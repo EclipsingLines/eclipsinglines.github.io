@@ -13,7 +13,7 @@ def translate_content(content, api_key, model, prompt):
         "model": model,
         "messages": [
             {"role": "system", "content": prompt},
-            {"role": "user", "content": f"Translate the following content to Spanish: {content}"}
+            {"role": "user", "content": f"Translate the following content to Spanish, return ONLY the translated text: {content}"}
         ]
     }
     response = requests.post(url, headers=headers, json=data)
@@ -38,15 +38,31 @@ def main():
         with open(input_file, "r") as f:
             content = f.read()
 
-        translated_content = translate_content(content, api_key, model, prompt)
+        # Parse the frontmatter
+        frontmatter = ""
+        body = ""
+        if content.startswith("---"):
+            parts = content.split("---", 2)
+            if len(parts) == 3:
+                frontmatter = parts[1].strip()
+                body = parts[2].strip()
+        else:
+            body = content
 
-        # Create the es directory if it doesn't exist
-        es_dir = os.path.dirname(output_file)
-        if not os.path.exists(es_dir):
-            os.makedirs(es_dir)
+        # Translate the title, description, and content
+        frontmatter_data = yaml.safe_load(frontmatter) if frontmatter else {}
+        if "title" in frontmatter_data:
+            frontmatter_data["title-es"] = translate_content(frontmatter_data["title"], api_key, model, prompt)
+        if "description" in frontmatter_data:
+            frontmatter_data["description-es"] = translate_content(frontmatter_data["description"], api_key, model, prompt)
+        translated_body = translate_content(body, api_key, model, prompt)
 
-        with open(output_file, "w") as f:
-            f.write(translated_content)
+        # Rebuild the frontmatter
+        new_frontmatter = "---\n" + yaml.dump(frontmatter_data, allow_unicode=True) + "---\n"
+
+        # Write the translated content to the output file
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(new_frontmatter + translated_body)
 
         print(f"Translated content from {input_file} to {output_file}")
 
