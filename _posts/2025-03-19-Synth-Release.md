@@ -94,7 +94,7 @@ With these elements in mind, I designed a simplified architecture for my synthes
 ### Implementation Steps
 
 1. **Setting Up the GDExtension Framework**:
-   - I created a new GDExtension project within Godot 4.x.
+   - I created a new GDExtension project within Godot 4.3.
    - Followed guidelines on setting up C++ bindings to expose my synthesizer functions to GDScript.
 
 2. **Core Sound Engine Development**:
