@@ -199,6 +199,7 @@ exclude:
 keep_files:
   - CNAME
   - .nojekyll
+  - _plugins
 
 # Multilingual settings
 languages: ["en", "es"]
