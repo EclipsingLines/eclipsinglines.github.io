@@ -44,18 +44,7 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/cv/";
               },
-            },{id: "post-godot-synth-release",
-      
-        title: "Godot Synth Release",
-      
-      description: "First public release of the Godot Synth Plugin",
-      section: "Posts",
-      handler: () => {
-        
-          window.location.href = "/blog/2025/Synth-Release/";
-        
-      },
-    },{id: "books-the-godfather",
+            },{id: "books-the-godfather",
           title: 'The Godfather',
           description: "",
           section: "Books",handler: () => {

@@ -95,7 +95,7 @@ def process_file(input_file, target_language, api_key, model, translations):
         new_frontmatter = "---\n" + yaml.dump(frontmatter_data, allow_unicode=True) + "---\n"
 
         # Combine the frontmatter and body
-        new_content = new_frontmatter + (translations[text_only] if text_only else "")
+        new_content = new_frontmatter + (translations[text_only] if text_only else body)
 
         # Write the translated content to the output file
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
