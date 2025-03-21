@@ -17,16 +17,10 @@ jobs:
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: 'translate_posts.yml',
+              workflow_id: 'translate.yml',
               ref: context.ref
             });
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'translate_news.yml',
-              ref: context.ref
-            });
-      - name: Wait for Translation Workflows
+      - name: Wait for Translation Workflow
         uses: actions/github-script@v6
         with:
           script: |
@@ -54,22 +48,12 @@ jobs:
               }
             }
 
-            // Wait for translate_posts.yml to complete
-            let postsCompleted = false;
-            while (!postsCompleted) {
-              postsCompleted = await checkWorkflowStatus('translate_posts.yml');
-              if (!postsCompleted) {
-                console.log('Waiting for translate_posts.yml to complete...');
-                await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
-              }
-            }
-
-            // Wait for translate_news.yml to complete
-            let newsCompleted = false;
-            while (!newsCompleted) {
-              newsCompleted = await checkWorkflowStatus('translate_news.yml');
-              if (!newsCompleted) {
-                console.log('Waiting for translate_news.yml to complete...');
+            // Wait for translate.yml to complete
+            let translateCompleted = false;
+            while (!translateCompleted) {
+              translateCompleted = await checkWorkflowStatus('translate.yml');
+              if (!translateCompleted) {
+                console.log('Waiting for translate.yml to complete...');
                 await new Promise(resolve => setTimeout(resolve, 10000)); // Wait 10 seconds
               }
             }
