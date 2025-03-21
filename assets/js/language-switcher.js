@@ -1,55 +1,48 @@
+// Language switcher functionality
 document.addEventListener('DOMContentLoaded', function () {
-    // Function to set a cookie
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    }
+    // Get all language switcher links
+    const languageLinks = document.querySelectorAll('.language-switcher .dropdown-item');
 
-    // Function to get a cookie
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
+    // Add click event listener to each link
+    languageLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
 
-    // Get the preferred language from the cookie
-    var preferredLang = getCookie('preferred_lang');
+            // Get the language from the data-lang attribute
+            const lang = this.getAttribute('data-lang');
 
-    // Update the language switcher UI based on the preferred language
-    if (preferredLang) {
-        // Update the language icon text
-        var languageIcon = document.querySelector('#languageDropdown i');
-        if (languageIcon) {
-            languageIcon.textContent = preferredLang.toUpperCase();
-        }
+            // Get the current URL
+            let currentUrl = window.location.pathname;
 
-        // Update the active class in the dropdown menu
-        var dropdownItems = document.querySelectorAll('.language-switcher .dropdown-item');
-        dropdownItems.forEach(function (item) {
-            var lang = item.getAttribute('data-lang');
-            var path = window.location.pathname;
-            if (path.startsWith('/en/')) {
-                path = path.substring(3);
-            } else if (path.startsWith('/es/')) {
-                path = path.substring(3);
+            // If we're on a language-specific page (e.g., /es/blog/...)
+            // we need to remove the language prefix
+            const urlParts = currentUrl.split('/');
+            if (urlParts.length > 1 && ['en', 'es'].includes(urlParts[1])) {
+                // Remove the language part
+                urlParts.splice(1, 1);
+                currentUrl = urlParts.join('/');
+                if (currentUrl === '') currentUrl = '/';
             }
-            var href = '/' + lang + path;
-            item.setAttribute('href', href);
-            if (lang === preferredLang) {
-                item.classList.add('active');
+
+            // Construct the new URL with the selected language
+            // For the default language (en), we don't add a prefix
+            let newUrl;
+            if (lang === 'en') {
+                newUrl = currentUrl;
             } else {
-                item.classList.remove('active');
+                // Make sure we don't add double slashes
+                if (currentUrl.startsWith('/')) {
+                    newUrl = '/' + lang + currentUrl;
+                } else {
+                    newUrl = '/' + lang + '/' + currentUrl;
+                }
             }
+
+            // Add query parameter for fallback
+            newUrl += (newUrl.includes('?') ? '&' : '?') + 'lang=' + lang;
+
+            // Navigate to the new URL
+            window.location.href = newUrl;
         });
-    }
+    });
 });
