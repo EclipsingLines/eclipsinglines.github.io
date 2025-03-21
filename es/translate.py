@@ -98,6 +98,7 @@ def process_file(input_file, target_language, api_key, model, translations):
         new_content = new_frontmatter + (translations[text_only] if text_only else "")
 
         # Write the translated content to the output file
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(new_content)
 
