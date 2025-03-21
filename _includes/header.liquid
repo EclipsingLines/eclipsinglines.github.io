@@ -77,7 +77,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    {{- p.title }}
+                    {{- p.title | t }}
                     {% if page.title == p.title or has_active_child %}
                       <span class="sr-only">(current)</span>
                     {% endif %}
@@ -91,7 +91,7 @@
                           class="dropdown-item {% if page.title == child.title %}active{% endif %}"
                           href="{% if child.permalink contains '://' %}{{ child.permalink }}{% else %}{{ child.permalink | relative_url }}{% endif %}"
                         >
-                          {{- child.title -}}
+                          {{- child.title | t -}}
                         </a>
                       {% endif %}
                     {% endfor %}
@@ -145,10 +145,10 @@
               {% endif %}
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
-              <a class="dropdown-item {% if site.detected_locale == 'en' %}active{% endif %}" href="#" data-lang="en">
+              <a class="dropdown-item {% if site.detected_locale == 'en' %}active{% endif %}" {% static_href %}href="/"{% endstatic_href %}>
                 English
               </a>
-              <a class="dropdown-item {% if site.detected_locale == 'es' %}active{% endif %}" href="#" data-lang="es">
+              <a class="dropdown-item {% if site.detected_locale == 'es' %}active{% endif %}" {% static_href %}href="/es/"{% endstatic_href %}>
                 Español
               </a>
             </div>

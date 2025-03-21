@@ -15,13 +15,26 @@
           {% assign latest_posts_limit = latest_posts_size %}
         {% endif %}
         {% for item in latest_posts limit: latest_posts_limit %}
+          {% assign translated_item = nil %}
+          {% if site.detected_locale == 'es' %}
+            {% assign translated_item_path = '_posts/es/' | append: item.name %}
+            {% assign translated_item = site.posts | where: 'path', translated_item_path | first %}
+          {% endif %}
           <tr>
             <th scope="row" style="width: 20%">{{ item.date | date: '%b %d, %Y' }}</th>
             <td>
               {% if item.redirect == blank %}
-                <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                {% if translated_item %}
+                  <a class="news-title" href="{{ translated_item.url | relative_url }}">{{ translated_item.title }}</a>
+                {% else %}
+                  <a class="news-title" href="{{ item.url | relative_url }}">{{ item.title | t }}</a>
+                {% endif %}
               {% elsif item.redirect contains '://' %}
-                <a class="news-title" href="{{ item.redirect }}" target="_blank">{{ item.title }}</a>
+                {% if translated_item %}
+                  <a class="news-title" href="{{ item.redirect }}" target="_blank">{{ translated_item.title }}</a>
+                {% else %}
+                  <a class="news-title" href="{{ item.redirect }}" target="_blank">{{ item.title | t }}</a>
+                {% endif %}
                 <svg width="2rem" height="2rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9"
@@ -35,7 +48,11 @@
                   ></path>
                 </svg>
               {% else %}
-                <a class="news-title" href="{{ item.redirect | relative_url }}">{{ item.title }}</a>
+                {% if translated_item %}
+                  <a class="news-title" href="{{ item.redirect | relative_url }}">{{ translated_item.title }}</a>
+                {% else %}
+                  <a class="news-title" href="{{ item.redirect | relative_url }}">{{ item.title | t }}</a>
+                {% endif %}
               {% endif %}
             </td>
           </tr>

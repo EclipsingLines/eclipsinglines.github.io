@@ -6,3 +6,18 @@ First Public Release of the Godot Synth Plugin: 'Primera versión pública del p
 First public release of the Godot Synth Plugin: 'Primera versión pública del plugin Godot Synth'
 Godot Synth Release: 'Lanzamiento de Sintetizador Godot'
 '[Brand new website](https://eclipsinglines.github.io/), sharing my code for games, tools and research.': '[Sitio web nuevo](https://eclipsinglines.github.io/), donde comparto mi código para juegos, herramientas e investigación.'
+
+# Navigation
+about: 'Acerca de'
+blog: 'Blog'
+news: 'Noticias'
+projects: 'Proyectos'
+publications: 'Publicaciones'
+repositories: 'Repositorios'
+
+# Common UI elements
+Search: 'Buscar'
+'Change theme': 'Cambiar tema'
+'Toggle navigation': 'Alternar navegación'
+'No news so far...': 'No hay noticias por ahora...'
+'No posts so far...': 'No hay publicaciones por ahora...'
