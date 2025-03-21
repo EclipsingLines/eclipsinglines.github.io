@@ -3,6 +3,7 @@ layout: about
 title: about
 permalink: /
 subtitle: The new lines we draw around ourselves hide the lines that used to define us.
+page_id: about
 
 profile:
   align: right
