@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
         link.addEventListener('click', function (e) {
             e.preventDefault();
 
-            // Get the language from the data-lang attribute
-            const lang = this.getAttribute('data-lang');
+            // Get the language from the href attribute
+            const lang = this.getAttribute('href').split('/')[1] || 'en';
 
             // Get the current URL
             let currentUrl = window.location.pathname;
@@ -38,8 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // Add query parameter for fallback
-            newUrl += (newUrl.includes('?') ? '&' : '?') + 'lang=' + lang;
+            // No need to add query parameter - Polyglot handles language via URL path
 
             // Navigate to the new URL
             window.location.href = newUrl;
