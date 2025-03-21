@@ -46,57 +46,101 @@ def process_file(input_file, target_language, api_key, model, translations):
 
         # Translate the title, description, and content
         frontmatter_data = yaml.safe_load(frontmatter) if frontmatter else {}
+        original_frontmatter_data = frontmatter_data.copy()  # Keep a copy of the original order
+        
+        # Translate title if present
         if "title" in frontmatter_data:
             english_title = frontmatter_data["title"]
             if english_title is not None and english_title not in translations:
-                translations[english_title] = translate_content(english_title, api_key, model, target_language)
+                translated_title = translate_content(english_title, api_key, model, target_language)
+                # Clean up the translated title (remove extra quotes and newlines)
+                translated_title = translated_title.strip().replace('\n', ' ').replace('\r', '')
+                translations[english_title] = translated_title
             if english_title is not None:
                 frontmatter_data[f"title-{target_language}"] = translations[english_title]
             else:
                 frontmatter_data[f"title-{target_language}"] = ""
+        
+        # Translate description if present
         if "description" in frontmatter_data:
             english_description = frontmatter_data["description"]
             if english_description is not None and english_description not in translations:
-                translations[english_description] = translate_content(english_description, api_key, model, target_language)
+                translated_desc = translate_content(english_description, api_key, model, target_language)
+                # Clean up the translated description (remove extra quotes and newlines)
+                translated_desc = translated_desc.strip().replace('\n', ' ').replace('\r', '')
+                translations[english_description] = translated_desc
             if english_description is not None:
                 frontmatter_data[f"description-{target_language}"] = translations[english_description]
             else:
                 frontmatter_data[f"description-{target_language}"] = ""
 
-        # Remove HTML and Liquid tags, HTML entities, and clean up whitespace
-        # First, remove HTML and Liquid tags
-        text_only = re.sub(r'<.*?>|{%[\s\S]*?%}|{{[\s\S]*?}}', '', body)
-        # Remove HTML entities
-        text_only = re.sub(r'&[a-zA-Z0-9#]+;', ' ', text_only)
-        # Replace multiple newlines with a single newline
-        text_only = re.sub(r'\n+', '\n', text_only)
-        # Replace multiple spaces with a single space
-        text_only = re.sub(r'\s+', ' ', text_only)
-        # Strip leading and trailing whitespace
-        text_only = text_only.strip()
+        # Preserve the original structure of the body for translation
+        # Store the original line breaks and formatting
+        body_lines = body.split('\n')
+        body_structure = []
+        current_paragraph = []
+        
+        for line in body_lines:
+            if line.strip() == '':
+                if current_paragraph:
+                    body_structure.append(('paragraph', '\n'.join(current_paragraph)))
+                    current_paragraph = []
+                body_structure.append(('empty', ''))
+            elif line.startswith('#'):
+                if current_paragraph:
+                    body_structure.append(('paragraph', '\n'.join(current_paragraph)))
+                    current_paragraph = []
+                body_structure.append(('heading', line))
+            elif line.startswith('- ') or line.startswith('* ') or re.match(r'^\d+\. ', line):
+                if current_paragraph:
+                    body_structure.append(('paragraph', '\n'.join(current_paragraph)))
+                    current_paragraph = []
+                body_structure.append(('list_item', line))
+            elif line.startswith('> '):
+                if current_paragraph:
+                    body_structure.append(('paragraph', '\n'.join(current_paragraph)))
+                    current_paragraph = []
+                body_structure.append(('quote', line))
+            else:
+                current_paragraph.append(line)
+        
+        if current_paragraph:
+            body_structure.append(('paragraph', '\n'.join(current_paragraph)))
 
-        # Debug print
-        print(f"text_only: '{text_only}'")
+        # Clean text for translation (remove HTML, Liquid tags, etc.)
+        text_only = re.sub(r'<.*?>|{%[\s\S]*?%}|{{[\s\S]*?}}', '', body)
+        text_only = re.sub(r'&[a-zA-Z0-9#]+;', ' ', text_only)
+        text_only = re.sub(r'\s+', ' ', text_only)
+        text_only = text_only.strip()
         
+        # Translate the content
         if text_only and text_only.strip() and text_only not in translations:
-            translations[text_only] = translate_content(text_only, api_key, model, target_language)
+            translated_content = translate_content(text_only, api_key, model, target_language)
+            translations[text_only] = translated_content
         elif text_only.strip() == "":
-            # If text_only is empty, use an empty string as the key
             translations[""] = ""
-        
-        # Debug print
-        print(f"translations keys: {list(translations.keys())}")
         
         # Add the lang front matter
         if target_language != "en":
             frontmatter_data["lang"] = target_language
 
-        # Rebuild the frontmatter
-        new_frontmatter = "---\n" + yaml.dump(frontmatter_data, allow_unicode=True) + "---\n"
+        # Rebuild the frontmatter while preserving the original order
+        ordered_frontmatter = {}
+        for key in original_frontmatter_data.keys():
+            ordered_frontmatter[key] = frontmatter_data.get(key, original_frontmatter_data[key])
+        
+        # Add any new keys that weren't in the original
+        for key in frontmatter_data.keys():
+            if key not in ordered_frontmatter:
+                ordered_frontmatter[key] = frontmatter_data[key]
+        
+        # Use the ordered frontmatter
+        new_frontmatter = "---\n" + yaml.dump(ordered_frontmatter, allow_unicode=True, sort_keys=False) + "---\n"
 
-        # Combine the frontmatter and body
-        new_content = new_frontmatter + (translations[text_only] if text_only else body)
-
+        # Combine the frontmatter and translated body
+        # Try to preserve the original structure as much as possible
+        translated_body = translations[text_only] if text_only else body
+        
         # Define output_file based on input_file and target_language
         if target_language != "en":
             input_dir = os.path.dirname(input_file)
@@ -109,7 +153,8 @@ def process_file(input_file, target_language, api_key, model, translations):
         # Write the translated content to the output file
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, "w", encoding="utf-8") as f:
-            f.write(new_content)
+            f.write(new_frontmatter)
+            f.write(translated_body)
 
         print(f"Translated content saved to {output_file}")
         return True
@@ -155,7 +200,7 @@ def main():
     if process_file(input_file, target_language, api_key, model, translations):
         # Write the updated translations to the YAML file
         with open(translations_file, "w", encoding="utf-8") as f:
-            yaml.dump(translations, f, allow_unicode=True)
+            yaml.dump(translations, f, allow_unicode=True, sort_keys=False)
         
         print(f"Successfully processed {input_file}.")
         print(f"Translations saved to {translations_file}")
