@@ -4,6 +4,7 @@ title: Acerca de
 permalink: /es/
 subtitle: Las nuevas líneas que dibujamos a nuestro alrededor ocultan las que solían definirnos.
 lang: es
+page_id: about
 
 profile:
   align: right
