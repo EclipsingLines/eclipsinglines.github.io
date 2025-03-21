@@ -28,13 +28,14 @@ jobs:
             FILENAME_WITHOUT_EXT="${FILENAME%.*}"
             OUTPUT_FILE="$INPUT_FILE"
 
-            # Check if translation exists
-            if [ ! -f "$OUTPUT_FILE" ]; then
-              echo "Translating $INPUT_FILE"
-              python "$(pwd)/translate.py" _posts es "$OPENROUTER_API_KEY" "google/gemini-2.0-flash-001" "$(pwd)/$OUTPUT_FILE"
-            else
-              echo "Translation already exists for $INPUT_FILE, skipping."
+            # Delete the existing translation if it exists
+            if [ -f "$OUTPUT_FILE" ]; then
+              rm "$OUTPUT_FILE"
+              echo "Deleted existing translation: $OUTPUT_FILE"
             fi
+
+            echo "Translating $INPUT_FILE"
+            python "$(pwd)/translate.py" _posts es "$OPENROUTER_API_KEY" "google/gemini-2.0-flash-001" "$(pwd)/$OUTPUT_FILE"
           done
       - name: Commit and push changes
         run: |
