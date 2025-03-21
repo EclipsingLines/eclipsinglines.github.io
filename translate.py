@@ -51,17 +51,17 @@ def process_file(input_file, target_language, api_key, model, translations):
             if english_title is not None and english_title not in translations:
                 translations[english_title] = translate_content(english_title, api_key, model, target_language)
             if english_title is not None:
-                frontmatter_data["title-es"] = translations[english_title]
+                frontmatter_data[f"title-{target_language}"] = translations[english_title]
             else:
-                frontmatter_data["title-es"] = ""
+                frontmatter_data[f"title-{target_language}"] = ""
         if "description" in frontmatter_data:
             english_description = frontmatter_data["description"]
             if english_description is not None and english_description not in translations:
                 translations[english_description] = translate_content(english_description, api_key, model, target_language)
             if english_description is not None:
-                frontmatter_data["description-es"] = translations[english_description]
+                frontmatter_data[f"description-{target_language}"] = translations[english_description]
             else:
-                frontmatter_data["description-es"] = ""
+                frontmatter_data[f"description-{target_language}"] = ""
 
         # Remove HTML and Liquid tags, HTML entities, and clean up whitespace
         # First, remove HTML and Liquid tags
@@ -97,11 +97,21 @@ def process_file(input_file, target_language, api_key, model, translations):
         # Combine the frontmatter and body
         new_content = new_frontmatter + (translations[text_only] if text_only else body)
 
+        # Define output_file based on input_file and target_language
+        if target_language != "en":
+            input_dir = os.path.dirname(input_file)
+            filename = os.path.basename(input_file)
+            output_dir = os.path.join(input_dir, target_language)
+            output_file = os.path.join(output_dir, filename)
+        else:
+            output_file = input_file
+
         # Write the translated content to the output file
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(new_content)
 
+        print(f"Translated content saved to {output_file}")
         return True
     except Exception as e:
         print(f"Error processing {input_file}: {e}")
@@ -112,7 +122,7 @@ def main():
     if len(sys.argv) != 6:
         print(f"Error: Expected 6 arguments, but got {len(sys.argv)}.")
         print(f"Received arguments: {sys.argv}")
-        print("Usage: python translate.py <input_folder> <target_language> <api_key> <model> <output_file>")
+        print("Usage: python translate.py <input_folder> <target_language> <api_key> <model> <input_file>")
         sys.exit(1)
 
     input_folder = sys.argv[1]
@@ -122,42 +132,36 @@ def main():
     target_language = sys.argv[2]
     api_key = sys.argv[3]
     model = sys.argv[4]
-    output_file = sys.argv[5]
+    input_file = sys.argv[5]  # This is the specific file to translate, not an output file
 
-    # Clear the output file before writing new content
     # Create _i18n directory if it doesn't exist
     os.makedirs("_i18n", exist_ok=True)
     translations_file = f"_i18n/{target_language}.yml"
-    if os.path.exists(translations_file):
-        with open(translations_file, "w", encoding="utf-8") as f:
-            f.write("")  # Clear the file
     
-    # Process all .md files in the specified folder
-    md_files = [f for f in os.listdir(input_folder) if f.endswith(".md")]
-    if not md_files:
-        print(f"No .md files found in {input_folder}.")
-        sys.exit(0)
-    
-    print(f"Found {len(md_files)} .md files in {input_folder}.")
-    
-    # Load existing translations from the YAML file
+    # Load existing translations from the YAML file if it exists
     translations = {}
+    if os.path.exists(translations_file):
+        try:
+            with open(translations_file, "r", encoding="utf-8") as f:
+                existing_translations = yaml.safe_load(f)
+                if existing_translations:
+                    translations = existing_translations
+        except Exception as e:
+            print(f"Error loading existing translations: {e}")
     
-    # Process each .md file
-    success_count = 0
-    for md_file in md_files:
-        input_file = os.path.join(input_folder, md_file)
-        print(f"Processing {input_file}...")
+    # Process the specified file
+    print(f"Processing {input_file}...")
+    
+    if process_file(input_file, target_language, api_key, model, translations):
+        # Write the updated translations to the YAML file
+        with open(translations_file, "w", encoding="utf-8") as f:
+            yaml.dump(translations, f, allow_unicode=True)
         
-        if process_file(input_file, target_language, api_key, model, translations):
-            success_count += 1
-
-    # Write the updated translations to the YAML file
-    with open(translations_file, "w", encoding="utf-8") as f:
-        yaml.dump(translations, f, allow_unicode=True)
-
-    print(f"Successfully processed {success_count} out of {len(md_files)} files.")
-    print(f"Translations saved to {translations_file}")
+        print(f"Successfully processed {input_file}.")
+        print(f"Translations saved to {translations_file}")
+    else:
+        print(f"Failed to process {input_file}.")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
