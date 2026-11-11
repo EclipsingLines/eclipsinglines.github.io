@@ -8,14 +8,14 @@
   color-scheme: light;
   --global-bg-color: #{$white-color};
   --global-code-bg-color: #{$code-bg-color-light};
-  --global-text-color: #{$black-color};
+  --global-text-color: #{$eclipse-navy};
   --global-text-color-light: #{$grey-color};
-  --global-theme-color: #{$purple-color};
-  --global-hover-color: #{$purple-color};
+  --global-theme-color: #{$eclipse-blue-deep};
+  --global-hover-color: #{$eclipse-blue-deep};
   --global-hover-text-color: #{$white-color};
-  --global-footer-bg-color: #{$grey-color-dark};
-  --global-footer-text-color: #{$grey-color-light};
-  --global-footer-link-color: #{$white-color};
+  --global-footer-bg-color: #{$eclipse-navy};
+  --global-footer-text-color: #{$eclipse-slate};
+  --global-footer-link-color: #{$eclipse-mint};
   --global-distill-app-color: #{$grey-color};
   --global-divider-color: rgba(0, 0, 0, 0.1);
   --global-card-bg-color: #{$white-color};
@@ -78,19 +78,19 @@
 
 html[data-theme="dark"] {
   color-scheme: dark;
-  --global-bg-color: #{$grey-color-dark};
+  --global-bg-color: #{$eclipse-navy};
   --global-code-bg-color: #{$code-bg-color-dark};
-  --global-text-color: #{$grey-color-light};
-  --global-text-color-light: #{$grey-color};
-  --global-theme-color: #{$cyan-color};
-  --global-hover-color: #{$cyan-color};
-  --global-hover-text-color: #{$white-color};
-  --global-footer-bg-color: #{$grey-color-light};
-  --global-footer-text-color: #{$grey-color-dark};
-  --global-footer-link-color: #{$black-color};
+  --global-text-color: #{$eclipse-cyan};
+  --global-text-color-light: #{$eclipse-slate};
+  --global-theme-color: #{$eclipse-mint};
+  --global-hover-color: #{$eclipse-mint};
+  --global-hover-text-color: #{$eclipse-navy};
+  --global-footer-bg-color: #{$eclipse-navy-deep};
+  --global-footer-text-color: #{$eclipse-slate};
+  --global-footer-link-color: #{$eclipse-mint};
   --global-distill-app-color: #{$grey-color-light};
-  --global-divider-color: #424246;
-  --global-card-bg-color: #{$grey-900};
+  --global-divider-color: #{$eclipse-navy-line};
+  --global-card-bg-color: #{$eclipse-navy-raised};
   --global-back-to-top-bg-color: rgba(
     #{color.channel($white-color, "red", $space: rgb)},
     #{color.channel($white-color, "green", $space: rgb)},

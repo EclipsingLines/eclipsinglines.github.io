@@ -32,10 +32,21 @@ $grey-900: #212529;
 $white-color: #ffffff !default;
 $black-color: #000000 !default;
 
+// Eclipsing Lines palette (from the logo)
+$eclipse-navy: #0a1424; // background
+$eclipse-navy-deep: #060d18; // footer in dark mode
+$eclipse-navy-raised: #111d33; // cards and code in dark mode
+$eclipse-navy-line: #1f2d47; // dividers in dark mode
+$eclipse-mint: #8bd8ac; // the waves
+$eclipse-blue: #2b9bdf; // the ring
+$eclipse-blue-deep: #1b6fa8; // the ring, darkened for text on white (5.4:1)
+$eclipse-cyan: #d7fbff; // the letters
+$eclipse-slate: #8fa3b8; // secondary text in dark mode
+
 // Theme colors
 
-$code-bg-color-light: rgba($purple-color, 0.05);
-$code-bg-color-dark: #2c3237 !default;
+$code-bg-color-light: rgba($eclipse-blue, 0.07);
+$code-bg-color-dark: $eclipse-navy-raised;
 
 // Font awesome location
 $fa-font-path: "../webfonts";
