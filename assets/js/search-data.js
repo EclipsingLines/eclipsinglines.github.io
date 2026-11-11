@@ -30,21 +30,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "dropdown-news",
-              title: "news",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/news/";
-              },
-            },{id: "dropdown-cv",
-              title: "cv",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/cv/";
-              },
-            },{id: "post-godot-synth-release",
+        },{id: "post-godot-synth-release",
       
         title: "Godot Synth Release",
       
@@ -55,12 +41,7 @@ ninja.data = [{
           window.location.href = "/blog/2025/Synth-Release/";
         
       },
-    },{id: "books-the-godfather",
-          title: 'The Godfather',
-          description: "",
-          section: "Books",handler: () => {
-              window.location.href = "/books/the_godfather/";
-            },},{id: "news-brand-new-website-sharing-my-code-for-games-tools-and-research",
+    },{id: "news-brand-new-website-sharing-my-code-for-games-tools-and-research",
           title: 'Brand new website, sharing my code for games, tools and research.',
           description: "",
           section: "News",},{id: "news-first-public-release-of-the-godot-synth-plugin",
@@ -78,6 +59,11 @@ ninja.data = [{
           description: "Synthesizer plugin for godot, SFX and procedural music.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/project_synth/";
+            },},{id: "projects-track-jammer",
+          title: 'Track Jammer',
+          description: "Generative MIDI sequencer for the Novation Launchpad Mini MK3.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/project_trackjammer/";
             },},{
         id: 'social-bluesky',
         title: 'Bluesky',

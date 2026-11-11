@@ -3,8 +3,8 @@ const ninja = document.querySelector('ninja-keys');
 
 // add the home and posts menu items
 ninja.data = [{
-    id: "nav-about",
-    title: "about",
+    id: "nav-",
+    title: "",
     section: "Navigation",
     handler: () => {
       window.location.href = "/";
@@ -30,21 +30,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/repositories/";
           },
-        },{id: "dropdown-news",
-              title: "news",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/news/";
-              },
-            },{id: "dropdown-cv",
-              title: "cv",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/cv/";
-              },
-            },{id: "post-godot-synth-release",
+        },{id: "post-godot-synth-release",
       
         title: "Godot Synth Release",
       
@@ -55,12 +41,7 @@ ninja.data = [{
           window.location.href = "/blog/2025/Synth-Release/";
         
       },
-    },{id: "books-the-godfather",
-          title: 'The Godfather',
-          description: "",
-          section: "Books",handler: () => {
-              window.location.href = "/books/the_godfather/";
-            },},{id: "news-sitio-web-nuevo-donde-comparto-mi-código-para-juegos-herramientas-e-investigación",
+    },{id: "news-sitio-web-nuevo-donde-comparto-mi-código-para-juegos-herramientas-e-investigación",
           title: 'Sitio web nuevo, donde comparto mi código para juegos, herramientas e investigación.',
           description: "",
           section: "News",},{id: "news-first-public-release-of-the-godot-synth-plugin",
@@ -78,6 +59,11 @@ ninja.data = [{
           description: "Synthesizer plugin for godot, SFX and procedural music.",
           section: "Projects",handler: () => {
               window.location.href = "/projects/project_synth/";
+            },},{id: "projects-track-jammer",
+          title: 'Track Jammer',
+          description: "Generative MIDI sequencer for the Novation Launchpad Mini MK3.",
+          section: "Projects",handler: () => {
+              window.location.href = "/projects/project_trackjammer/";
             },},{
         id: 'social-bluesky',
         title: 'Bluesky',
